@@ -1,0 +1,32 @@
+{
+  "name": "scaredsquared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "cd ./server && nodemon server.js",
+    "dev:client": "cd ./client && npm start",
+    "start": "cd ./server && npm start",
+    "dev": "concurrently \"npm run dev:server\"  \"npm run dev:client\"",
+    "seed:todos": "cd ./server/seeds && node todo.js",
+    "install:client": "cd ./client && npm i",
+    "install:server": "cd ./server && npm i",
+    "install": "cd ./server && npm i && cd ../client && npm i",
+    "build": "cd ./client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infinity-machine/ScaredSquared.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/infinity-machine/ScaredSquared/issues"
+  },
+  "homepage": "https://github.com/infinity-machine/ScaredSquared#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
+}

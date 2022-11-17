@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div>
-      <h1>SCARED SQUARED!</h1>
+      <h1>BACKGROUND BUDDY</h1>
       <p>Search arrest reports for an individual's last name and the county you want to search in!</p>
       <form onSubmit={handleSearch}>
         <input name="lastName" value={input.lastName} onChange={handleInputChange} placeholder="LAST NAME"></input>

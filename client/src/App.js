@@ -1,29 +1,59 @@
-import axios from 'axios';
-import FormData from 'form-data';
-
+import { useState } from 'react';
+import fetchSource from './utils/fetches';
 
 function App() {
-  const data = new FormData();
-  var config = {
-    method: 'get',
-    url: 'https://api.crimeometer.com/v1/incidents/stats?lat=41.9777476245164&lon=-87.6472903440513&datetime_ini=2019-01-01 00:00:00&datetime_end=2019-12-31 00:00:00&distance=5mi&page=1',
-    headers: { 
-      'x-api-key': 'NYlLzorHFs601nUrbj7Jy1i4xSG1PHR5az8U07dx'
-    },
-    data : data
-  };
-  
-  axios(config)
-  .then((res) => {
-    console.log(JSON.stringify(res.data));
-  }).catch((err) => {
-    console.log(err);
+  const [input, setInput] = useState({
+    lastName: '',
+    county: ''
   });
+  const [results, setResults] = useState([]);
 
+  const handleInputChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const records = await fetchSource(input.lastName, input.county);
+    console.log(records)
+    setResults(records)
+  }
 
   return (
     <div>
-
+      <h1>SCARED SQUARED!</h1>
+      <p>Search arrest reports for an individual's last name and the county you want to search in!</p>
+      <form onSubmit={handleSearch}>
+        <input name="lastName" value={input.lastName} onChange={handleInputChange} placeholder="LAST NAME"></input>
+        <input name="county" value={input.county} onChange={handleInputChange} placeholder="COUNTY CODE"></input>
+        <button>SEARCH</button>
+      </form>
+      {
+        results ? (
+          <div>
+            {
+              results.map((data, index) => {
+                return (
+                  <div key={index}>
+                    <h2>{data.name}</h2>
+                    <p>{data.county_state}</p>
+                    <p>BOOKED {data.book_date_formatted}</p>
+                    {
+                      data.charges.length ? data.charges.map((data, index) => {
+                        return <p key={index}>CHARGE: {data}</p>
+                      }) : <p></p>
+                    }
+                    <img src={data.mugshot}></img>
+                  </div>
+                )
+              })
+            }
+          </div>
+        ) : <></>
+      }
     </div>
   );
 }
